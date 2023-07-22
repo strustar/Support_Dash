@@ -2,8 +2,7 @@ from dash import Dash, dcc, html, Input, Output
 import dash_bootstrap_components as dbc
 import re
 import pandas as pd
-from side import Sidebar, fs, In, style_sidebar, width_side
-
+from side import Type_fcn, header, Title, Type, fs, In, style_sidebar, width_side
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP], assets_folder='assets')
 # app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP], suppress_callback_exceptions=True)
@@ -32,40 +31,48 @@ common_style = {
 
 blank = '\u2002' #빈칸
 tabs = dbc.Tabs(children=[
-        dbc.Tab([html.P('tttt'), html.Div(id='t1')], label=f"Ⅰ. 설계조건 📝", tab_id='tab1', **common_style),                 
+        dbc.Tab([html.P('tttt'), html.Div(id='t1')], label=f"Ⅰ. 일반사항 📝", tab_id='tab1', **common_style),                 
         dbc.Tab(label="Ⅱ. 구조검토 💻", tab_id='tab2', **common_style), 
-        dbc.Tab(label="Ⅲ. 요약 ⭕", tab_id='tab3', **common_style), 
-        dbc.Tab(label="[참고 사항] ✍️", tab_id='tab4', **common_style), 
-        ], id='tabs', active_tab='tab2',  style=style, )
+        dbc.Tab(label="Ⅲ. 요약 ⭕✔️", tab_id='tab3', **common_style), 
+        dbc.Tab(label="[참고 사항] ✍️📊", tab_id='tab4', **common_style), 
+        ], id='tabs', active_tab='tab1',  style=style, )
 
 
 style_main = style_sidebar.copy()
 style_main.update({'left':f'{width_side + 50}px', 'width':'1200px', 'background':'white'})
 main_content = dbc.Container(id="main-content")
 
+Typ = html.Div(id='dummy1')
+@app.callback(
+    Output("dummy1", "children"),
+    [Input("type", "value")], )
+def display_selected_value(value):    
+    return Type_fcn(value)    
+
+sidebar = dbc.Container( [header, Title, Type, Typ], style=style_sidebar,)
 app.layout = dbc.Container([
     html.Div([
         dbc.Row([
-            dbc.Col(Sidebar()),
+            dbc.Col(sidebar),
             dbc.Col([main_content, tabs], style=style_main),
-        ], align="top", ), 
-    ],),
-], fluid=True, )
+            ], align="top", ), 
+        ],),
+        html.Div(id='dummy12', style={'display': 'none'}),
+    ], fluid=True, )
 
-
-@app.callback(
-    Output("t1", "children"),
-    [Input(In.s_h['id'], "value"), Input(In.s_t['id'], "value")],
-)
-def update_output(h, t):
-    In.s_h['v'] = h
-    In.s_t['v'] = t
-    print(In.s_h, In.s_t)
-    return html.Div([f"Input 1: {h}, Input 2: {t}"])
-    # data = {In.s_h[0]:h, In.s_t[0]:t}    
-    # with open("In.json", "w") as f:
-    #     json.dump(data, f)
-    # return html.Div([]) #, print(height, thickness)
+# @app.callback(
+#     Output("t1", "children"),
+#     [Input(In.height['id'], "value"), Input(In.slab_t['id'], "value")],
+# )
+# def update_output(h, t):
+#     In.height['v'] = h
+#     In.slab_t['v'] = t
+#     print(In.height, In.slab_t)
+#     return html.Div([f"Input 1: {h}, Input 2: {t}"])
+#     # data = {In.s_h[0]:h, In.s_t[0]:t}    
+#     # with open("In.json", "w") as f:
+#     #     json.dump(data, f)
+#     # return html.Div([]) #, print(height, thickness)
 
 
 # @app.callback(
