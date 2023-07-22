@@ -5,7 +5,7 @@ fs = [28, 24, 20, 16];  width_side = 500
 
 style_sidebar = {
     "position": "fixed",                  # 요소의 위치를 상대적이 아닌 고정된 위치로 설정
-    "top": "10px",                       # 상단에서의 위치를 100 픽셀로 설정
+    "top": "20px",                       # 상단에서의 위치를 100 픽셀로 설정
     "left": "10px",                       # 좌측에서의 위치를 10 픽셀로 설정
     "bottom": "10px",                      # 하단에서의 위치를 0 픽셀로 설정
     "width": f"{width_side}px",                     # 너비를 32rem으로 설정
