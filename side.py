@@ -97,8 +97,8 @@ def Type_fcn(value):
     return Typ
 
 
-
-
+# f'{Lm:,.1f} mm'
+# value="{:,.1f} mm".format(In.height['v'])
 
 # def Callback():
 #     Sidebar()
